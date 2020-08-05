@@ -1,25 +1,20 @@
 #include "mainwindow.h"
+#include <memory>
+using namespace std;
 
 MainWindow::MainWindow(QWidget*parent): QMainWindow(parent)
 {
-   MainWidget = new QWidget();
-   MainLayout = new QGridLayout();
-   TextBox = new QPlainTextEdit();
+   MainWidget = unique_ptr<QWidget>(new QWidget);
+   MainLayout = unique_ptr<QGridLayout>(new QGridLayout);
+   TextBox = unique_ptr<QPlainTextEdit>(new QPlainTextEdit);
 
-   setCentralWidget(MainWidget);
+   setCentralWidget(MainWidget.get());
    setWindowTitle(tr("Text Editor"));
 
-   MainWidget->setLayout(MainLayout);
+   MainWidget->setLayout(MainLayout.get());
 
    MainLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
-   MainLayout->addWidget(TextBox);
+   MainLayout->addWidget(TextBox.get());
 
    TextBox->setPlainText(tr("Hola Mundo!"));
-}
-
-MainWindow::~MainWindow()
-{
-    delete MainWidget;
-    delete MainLayout;
-    delete TextBox;
 }

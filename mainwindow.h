@@ -1,19 +1,21 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QtWidgets>
+#include <memory>
 
 class MainWindow : public QMainWindow
 {
 public:
     MainWindow(QWidget* parent=0);
-    ~MainWindow();
+    ~MainWindow(){};
 
 public slots:
 
 private:
-    QWidget* MainWidget = nullptr;
-    QPlainTextEdit* TextBox = nullptr;
-    QGridLayout* MainLayout = nullptr;
+    std::unique_ptr<QWidget> MainWidget;
+    std::unique_ptr<QPlainTextEdit> TextBox;
+    std::unique_ptr<QGridLayout> MainLayout;
+    
 };
   
 #endif // MAINWINDOW_H
