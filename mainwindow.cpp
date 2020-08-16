@@ -10,11 +10,59 @@ MainWindow::MainWindow(QWidget*parent): QMainWindow(parent)
 
    setCentralWidget(MainWidget.get());
    setWindowTitle(tr("Text Editor"));
-
    MainWidget->setLayout(MainLayout.get());
-
    MainLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);
-   MainLayout->addWidget(TextBox.get());
 
+   CreateActions();
+   CreateMenus();
+   
+   MainLayout->addWidget(TextBox.get());
    TextBox->setPlainText(tr("Hola Mundo!"));
+}
+
+void MainWindow::CreateActions()
+{
+   ActNewFile = unique_ptr<QAction>(new QAction(tr("&New"), this));
+   ActNewFile->setStatusTip(tr("Create a new file"));
+   connect(ActNewFile.get(), &QAction::triggered, this, &MainWindow::NewFile);
+
+   ActLoadFile = unique_ptr<QAction>(new QAction(tr("&Load"), this));
+   ActLoadFile->setStatusTip(tr("Load a file"));
+   connect(ActLoadFile.get(), &QAction::triggered, this, &MainWindow::LoadFile);
+
+   ActSaveFile = unique_ptr<QAction>(new QAction(tr("&Save"), this));
+   ActSaveFile->setStatusTip(tr("Save file"));
+   connect(ActSaveFile.get(), &QAction::triggered, this, &MainWindow::SaveFile);
+
+   ActExit = unique_ptr<QAction>(new QAction(tr("&Exit"), this));
+   ActExit->setStatusTip(tr("Exit the program"));
+   connect(ActExit.get(), &QAction::triggered, this, &MainWindow::close);
+}
+
+void MainWindow::CreateMenus()
+{
+   MenuFile = unique_ptr<QMenu>(menuBar()->addMenu(tr("&File")));
+   MenuFile->addAction(ActNewFile.get());
+   MenuFile->addAction(ActLoadFile.get());
+   MenuFile->addAction(ActSaveFile.get());
+   MenuFile->addAction(ActExit.get());
+
+   //TODO
+   //MenuEdit = unique_ptr<QMenu>(menuBar()->addMenu(tr("&Edit")));
+   //MenuAbout = unique_ptr<QMenu>(menuBar()->addMenu(tr("&About")));
+}
+
+void MainWindow::NewFile()
+{
+   qDebug() << "TODO: NewFile function";
+}
+
+void MainWindow::LoadFile()
+{
+   qDebug() << "TODO: LoadFile function";
+}
+
+void MainWindow::SaveFile()
+{
+   qDebug() << "TODO: SaveFile function";
 }
