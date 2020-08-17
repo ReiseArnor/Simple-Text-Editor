@@ -75,5 +75,13 @@ void MainWindow::LoadFile()
 
 void MainWindow::SaveFile()
 {
-   qDebug() << "TODO: SaveFile function";
+   QFile file(FileName);
+   if (!file.open(QIODevice::WriteOnly | QFile::Text)) {
+      QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+      return;
+   }
+   setWindowTitle(FileName);
+   QTextStream out(&file);
+   out << TextBox->toPlainText();
+   file.close();
 }
