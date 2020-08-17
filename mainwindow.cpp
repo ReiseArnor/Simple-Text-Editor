@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget*parent): QMainWindow(parent)
    MainWidget = unique_ptr<QWidget>(new QWidget);
    MainLayout = unique_ptr<QGridLayout>(new QGridLayout);
    TextBox = unique_ptr<QPlainTextEdit>(new QPlainTextEdit);
+   FileName = "untitled";
 
    setCentralWidget(MainWidget.get());
    setWindowTitle(tr("Text Editor"));
@@ -54,12 +55,22 @@ void MainWindow::CreateMenus()
 
 void MainWindow::NewFile()
 {
-   qDebug() << "TODO: NewFile function";
+   FileName = "untitled";
+   TextBox->setPlainText("");
 }
 
 void MainWindow::LoadFile()
 {
-   qDebug() << "TODO: LoadFile function";
+   FileName = QFileDialog::getOpenFileName(this, "Open the file");
+   QFile file(FileName);
+   if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
+      QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+      return;
+   }
+   setWindowTitle(FileName);
+   QTextStream in(&file);
+   TextBox->setPlainText(in.readAll());
+   file.close();
 }
 
 void MainWindow::SaveFile()

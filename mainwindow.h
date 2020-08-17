@@ -18,6 +18,7 @@ public slots:
 private:
     void CreateActions();
     void CreateMenus();
+    QString FileName;
 
     std::unique_ptr<QWidget> MainWidget;
     std::unique_ptr<QPlainTextEdit> TextBox;
