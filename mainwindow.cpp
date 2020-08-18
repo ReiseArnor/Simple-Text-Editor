@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget*parent): QMainWindow(parent)
 
 void MainWindow::CreateActions()
 {
+   // file menu actions
    ActNewFile = unique_ptr<QAction>(new QAction(tr("&New"), this));
    ActNewFile->setStatusTip(tr("Create a new file"));
    connect(ActNewFile.get(), &QAction::triggered, this, &MainWindow::NewFile);
@@ -38,6 +39,31 @@ void MainWindow::CreateActions()
    ActExit = unique_ptr<QAction>(new QAction(tr("&Exit"), this));
    ActExit->setStatusTip(tr("Exit the program"));
    connect(ActExit.get(), &QAction::triggered, this, &MainWindow::close);
+
+   // edit menu actions
+   ActCut = unique_ptr<QAction>(new QAction(tr("&Cut"), this));
+   ActCut->setStatusTip(tr("Cut the selected text"));
+   connect(ActCut.get(), &QAction::triggered, this, &MainWindow::Cut);
+
+   ActCopy = unique_ptr<QAction>(new QAction(tr("&Copy"), this));
+   ActCopy->setStatusTip(tr("Copy the selected text"));
+   connect(ActCopy.get(), &QAction::triggered, this, &MainWindow::Copy);
+
+   ActPaste = unique_ptr<QAction>(new QAction(tr("&Paste"), this));
+   ActPaste->setStatusTip(tr("Paste the text"));
+   connect(ActPaste.get(), &QAction::triggered, this, &MainWindow::Paste);
+
+   ActUndo = unique_ptr<QAction>(new QAction(tr("&Undo"), this));
+   ActUndo->setStatusTip(tr("Undo action"));
+   connect(ActUndo.get(), &QAction::triggered, this, &MainWindow::Undo);
+
+   ActRedo = unique_ptr<QAction>(new QAction(tr("&Redo"), this));
+   ActRedo->setStatusTip(tr("Redo action"));
+   connect(ActRedo.get(), &QAction::triggered, this, &MainWindow::Redo);
+
+   ActSelectAll = unique_ptr<QAction>(new QAction(tr("&Select all"), this));
+   ActSelectAll->setStatusTip(tr("Select all the text"));
+   connect(ActSelectAll.get(), &QAction::triggered, this, &MainWindow::SelectAll);
 }
 
 void MainWindow::CreateMenus()
@@ -48,8 +74,15 @@ void MainWindow::CreateMenus()
    MenuFile->addAction(ActSaveFile.get());
    MenuFile->addAction(ActExit.get());
 
+   MenuEdit = unique_ptr<QMenu>(menuBar()->addMenu(tr("&Edit")));
+   MenuEdit->addAction(ActCut.get());
+   MenuEdit->addAction(ActCopy.get());
+   MenuEdit->addAction(ActPaste.get());
+   MenuEdit->addAction(ActUndo.get());
+   MenuEdit->addAction(ActRedo.get());
+   MenuEdit->addAction(ActSelectAll.get());
+
    //TODO
-   //MenuEdit = unique_ptr<QMenu>(menuBar()->addMenu(tr("&Edit")));
    //MenuAbout = unique_ptr<QMenu>(menuBar()->addMenu(tr("&About")));
 }
 
@@ -84,4 +117,34 @@ void MainWindow::SaveFile()
    QTextStream out(&file);
    out << TextBox->toPlainText();
    file.close();
+}
+
+void MainWindow::Copy()
+{
+   TextBox->copy();
+}
+
+void MainWindow::Cut()
+{
+   TextBox->cut();
+}
+
+void MainWindow::Paste()
+{
+   TextBox->paste();
+}
+
+void MainWindow::Undo()
+{
+   TextBox->undo();
+}
+
+void MainWindow::Redo()
+{
+   TextBox->redo();
+}
+
+void MainWindow::SelectAll()
+{
+   TextBox->selectAll();
 }

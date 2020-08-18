@@ -14,6 +14,12 @@ public slots:
     void NewFile();
     void LoadFile();
     void SaveFile();
+    void Copy();
+    void Cut();
+    void Paste();
+    void Undo();
+    void Redo();
+    void SelectAll();
 
 private:
     void CreateActions();
@@ -31,6 +37,12 @@ private:
     std::unique_ptr<QAction> ActLoadFile;
     std::unique_ptr<QAction> ActSaveFile;
     std::unique_ptr<QAction> ActExit;
+    std::unique_ptr<QAction> ActCopy;
+    std::unique_ptr<QAction> ActCut;
+    std::unique_ptr<QAction> ActPaste;
+    std::unique_ptr<QAction> ActUndo;
+    std::unique_ptr<QAction> ActRedo;
+    std::unique_ptr<QAction> ActSelectAll;
 };
   
 #endif // MAINWINDOW_H
