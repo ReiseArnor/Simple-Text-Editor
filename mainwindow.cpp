@@ -64,6 +64,10 @@ void MainWindow::CreateActions()
    ActSelectAll = unique_ptr<QAction>(new QAction(tr("&Select all"), this));
    ActSelectAll->setStatusTip(tr("Select all the text"));
    connect(ActSelectAll.get(), &QAction::triggered, this, &MainWindow::SelectAll);
+
+   // about menu actions
+   ActAbout = unique_ptr<QAction>(new QAction(tr("About..."), this));
+   connect(ActAbout.get(), &QAction::triggered, this, &MainWindow::About);
 }
 
 void MainWindow::CreateMenus()
@@ -82,8 +86,8 @@ void MainWindow::CreateMenus()
    MenuEdit->addAction(ActRedo.get());
    MenuEdit->addAction(ActSelectAll.get());
 
-   //TODO
-   //MenuAbout = unique_ptr<QMenu>(menuBar()->addMenu(tr("&About")));
+   MenuAbout = unique_ptr<QMenu>(menuBar()->addMenu(tr("&About")));
+   MenuAbout->addAction(ActAbout.get());
 }
 
 void MainWindow::NewFile()
@@ -147,4 +151,25 @@ void MainWindow::Redo()
 void MainWindow::SelectAll()
 {
    TextBox->selectAll();
+}
+
+void MainWindow::About()
+{
+   QMessageBox::about(this, tr("About this program"),
+                tr(  "This is a simple text editor made with Qt5 in C++\n\n"
+
+                     "Copyright © 2020 ReiseArnor\n\n"
+
+                     "This program is free software: you can redistribute it and/or modify "
+                     "it under the terms of the GNU General Public License as published by "
+                     "the Free Software Foundation, either version 2 of the License, or "
+                     "(at your option) any later version.\n\n"
+
+                     "This program is distributed in the hope that it will be useful, "
+                     "but WITHOUT ANY WARRANTY; without even the implied warranty of "
+                     "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the "
+                     "GNU General Public License for more details.\n\n"
+
+                     "You should have received a copy of the GNU General Public License "
+                     "along with this program. If not, see <https://www.gnu.org/licenses/>."));
 }

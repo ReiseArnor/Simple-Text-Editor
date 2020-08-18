@@ -20,6 +20,7 @@ public slots:
     void Undo();
     void Redo();
     void SelectAll();
+    void About();
 
 private:
     void CreateActions();
@@ -43,6 +44,7 @@ private:
     std::unique_ptr<QAction> ActUndo;
     std::unique_ptr<QAction> ActRedo;
     std::unique_ptr<QAction> ActSelectAll;
+    std::unique_ptr<QAction> ActAbout;
 };
   
 #endif // MAINWINDOW_H
