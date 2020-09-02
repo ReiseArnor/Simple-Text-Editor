@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget*parent): QMainWindow(parent)
 
    CreateActions();
    CreateMenus();
-   
+
    MainLayout->addWidget(TextBox.get());
    TextBox->setPlainText(tr("Hola Mundo!"));
 }
@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget*parent): QMainWindow(parent)
 void MainWindow::CreateActions()
 {
    // file menu actions
+
    ActNewFile = unique_ptr<QAction>(new QAction(tr("&New"), this));
    ActNewFile->setStatusTip(tr("Create a new file"));
    connect(ActNewFile.get(), &QAction::triggered, this, &MainWindow::NewFile);
@@ -36,11 +37,16 @@ void MainWindow::CreateActions()
    ActSaveFile->setStatusTip(tr("Save file"));
    connect(ActSaveFile.get(), &QAction::triggered, this, &MainWindow::SaveFile);
 
+   ActSaveFileAs = unique_ptr<QAction>(new QAction(tr("&Save as..."), this));
+   ActSaveFile->setStatusTip(tr("Save file as..."));
+   connect(ActSaveFileAs.get(), &QAction::triggered, this, &MainWindow::SaveFileAs);
+
    ActExit = unique_ptr<QAction>(new QAction(tr("&Exit"), this));
    ActExit->setStatusTip(tr("Exit the program"));
    connect(ActExit.get(), &QAction::triggered, this, &MainWindow::close);
 
    // edit menu actions
+
    ActCut = unique_ptr<QAction>(new QAction(tr("&Cut"), this));
    ActCut->setStatusTip(tr("Cut the selected text"));
    connect(ActCut.get(), &QAction::triggered, this, &MainWindow::Cut);
@@ -76,6 +82,7 @@ void MainWindow::CreateMenus()
    MenuFile->addAction(ActNewFile.get());
    MenuFile->addAction(ActLoadFile.get());
    MenuFile->addAction(ActSaveFile.get());
+   MenuFile->addAction(ActSaveFileAs.get());
    MenuFile->addAction(ActExit.get());
 
    MenuEdit = unique_ptr<QMenu>(menuBar()->addMenu(tr("&Edit")));
@@ -121,6 +128,20 @@ void MainWindow::SaveFile()
    QTextStream out(&file);
    out << TextBox->toPlainText();
    file.close();
+}
+
+void MainWindow::SaveFileAs()
+{
+  FileName = QFileDialog::getSaveFileName(this, "Save the file as...");
+  QFile file(FileName);
+  if (!file.open(QIODevice::WriteOnly | QFile::Text)) {
+     QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+     return;
+  }
+  setWindowTitle(FileName);
+  QTextStream out(&file);
+  out << TextBox->toPlainText();
+  file.close();
 }
 
 void MainWindow::Copy()

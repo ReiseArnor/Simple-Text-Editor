@@ -14,6 +14,7 @@ public slots:
     void NewFile();
     void LoadFile();
     void SaveFile();
+    void SaveFileAs();
     void Copy();
     void Cut();
     void Paste();
@@ -33,10 +34,11 @@ private:
     std::unique_ptr<QMenu> MenuFile;
     std::unique_ptr<QMenu> MenuEdit;
     std::unique_ptr<QMenu> MenuAbout;
-    
+
     std::unique_ptr<QAction> ActNewFile;
     std::unique_ptr<QAction> ActLoadFile;
     std::unique_ptr<QAction> ActSaveFile;
+    std::unique_ptr<QAction> ActSaveFileAs;
     std::unique_ptr<QAction> ActExit;
     std::unique_ptr<QAction> ActCopy;
     std::unique_ptr<QAction> ActCut;
@@ -46,5 +48,5 @@ private:
     std::unique_ptr<QAction> ActSelectAll;
     std::unique_ptr<QAction> ActAbout;
 };
-  
+
 #endif // MAINWINDOW_H
