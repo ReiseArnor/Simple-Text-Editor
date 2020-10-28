@@ -4,9 +4,9 @@ using namespace std;
 
 MainWindow::MainWindow(QWidget*parent): QMainWindow(parent)
 {
-   MainWidget = unique_ptr<QWidget>(new QWidget);
-   MainLayout = unique_ptr<QGridLayout>(new QGridLayout);
-   TextBox = unique_ptr<QPlainTextEdit>(new QPlainTextEdit);
+   MainWidget = make_unique<QWidget>();
+   MainLayout = make_unique<QGridLayout>();
+   TextBox = make_unique<QPlainTextEdit>();
    FileName = "untitled";
 
    setCentralWidget(MainWidget.get());
@@ -179,7 +179,7 @@ void MainWindow::About()
    QMessageBox::about(this, tr("About this program"),
                 tr(  "This is a simple text editor made with Qt5 in C++\n\n"
 
-                     "Copyright © 2020 ReiseArnor\n\n"
+                     "Copyright © 2020 Odanis Esquea\n\n"
 
                      "This program is free software: you can redistribute it and/or modify "
                      "it under the terms of the GNU General Public License as published by "
